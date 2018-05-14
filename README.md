@@ -9,7 +9,7 @@ I recommend: https://github.com/powerline/fonts.git
 ```
 git clone https://github.com/powerline/fonts.git fonts
 cd fonts
-install.sh
+sh install.sh
 ```
 
 Install:
