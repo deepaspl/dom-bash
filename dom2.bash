@@ -375,7 +375,7 @@ set_bash_prompt() {
 
     # uncomment below to use right prompt
     #     PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
-    PS1=$PR
+    PS1='\n'$PR
 }
 
 PROMPT_COMMAND=set_bash_prompt
