@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROMPT_DIRTRIM=2 # bash4 and above
+PROMPT_DIRTRIM=4 # bash4 and above
 
 ######################################################################
 DEBUG=0
@@ -168,32 +168,46 @@ prompt_histdt() {
     prompt_segment black default "\! [\A]"
 }
 
-
-git_status_dirty() {
-    dirty=$(git status -s 2> /dev/null | tail -n 1)
-    [[ -n $dirty ]] && echo " ●"
-}
+## no need of status
+# git_status_dirty() {
+#     dirty=$(git status -s 2> /dev/null | tail -n 1)
+#     [[ -n $dirty ]] && echo " ●"
+# }
 
 # Git: branch/detached head, dirty status
+# prompt_git() {
+#     local ref dirty
+#     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
+#         ZSH_THEME_GIT_PROMPT_DIRTY='±'
+#         #dirty=$(git_status_dirty)
+#         ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
+#         if [[ -n $dirty ]]; then
+#             prompt_segment yellow black
+#         else
+#             prompt_segment green black
+#         fi
+#         PR="$PR${ref/refs\/heads\// }$dirty"
+#     fi
+# }
+
 prompt_git() {
     local ref dirty
-    if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        ZSH_THEME_GIT_PROMPT_DIRTY='±'
-        dirty=$(git_status_dirty)
         ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
-        if [[ -n $dirty ]]; then
-            prompt_segment yellow black
-        else
-            prompt_segment green black
-        fi
+        prompt_segment yellow black
         PR="$PR${ref/refs\/heads\// }$dirty"
-    fi
+}
+
+# hostmame: current host
+prompt_hostmame() {
+    prompt_segment blue black '\h'
 }
 
 # Dir: current working directory
 prompt_dir() {
-    prompt_segment blue black '\w'
+    prompt_segment cyan black '\w'
 }
+
+
 
 # Status:
 # - was there an error
@@ -202,7 +216,7 @@ prompt_dir() {
 prompt_status() {
     local symbols
     symbols=()
-    [[ $RETVAL -ne 0 ]] && symbols+="$(ansi_single $(fg_color red))✘"
+    [[ $RETVAL -ne 0 ]] && symbols+="$(ansi_single $(fg_color red))✕"
     [[ $UID -eq 0 ]] && symbols+="$(ansi_single $(fg_color yellow))⚡"
     [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="$(ansi_single $(fg_color cyan))⚙"
 
@@ -327,6 +341,7 @@ prompt_emacsdir() {
 ## Main prompt
 
 build_prompt() {
+    prompt_hostmame
     [[ ! -z ${AG_EMACS_DIR+x} ]] && prompt_emacsdir
     prompt_status
     #[[ -z ${AG_NO_HIST+x} ]] && prompt_histdt
@@ -345,14 +360,14 @@ build_prompt() {
 set_bash_prompt() {
     RETVAL=$?
     PR=""
-    PRIGHT="$(prompt_right_segment)"
+    PRIGHT=""
     CURRENT_BG=NONE
     PR="$(ansi_single $(text_effect reset))"
     build_prompt
 
     # uncomment below to use right prompt
-         PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
-    #PS1=$PR
+    #     PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
+    PS1=$PR
 }
 
 PROMPT_COMMAND=set_bash_prompt
