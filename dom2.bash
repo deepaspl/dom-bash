@@ -158,7 +158,7 @@ prompt_context() {
     local user=`whoami`
 
     if [[ $user != $DEFAULT_USER || -n $SSH_CLIENT ]]; then
-        prompt_segment black default "$user@\h"
+        prompt_segment blue default "$user@\h"
     fi
 }
 
@@ -199,7 +199,13 @@ prompt_git() {
 
 # hostmame: current host
 prompt_hostmame() {
-    prompt_segment blue black '\h'
+    local user=`whoami`
+
+    if [[ $user != $DEFAULT_USER || -n $SSH_CLIENT ]]; then
+        prompt_segment blue black "$user@\h"
+    else
+        prompt_segment blue black '\h'
+    fi
 }
 
 # Dir: current working directory
@@ -345,7 +351,7 @@ build_prompt() {
     [[ ! -z ${AG_EMACS_DIR+x} ]] && prompt_emacsdir
     prompt_status
     #[[ -z ${AG_NO_HIST+x} ]] && prompt_histdt
-    [[ -z ${AG_NO_CONTEXT+x} ]] && prompt_context
+    #[[ -z ${AG_NO_CONTEXT+x} ]] && prompt_context
     prompt_virtualenv
     prompt_dir
     prompt_git
