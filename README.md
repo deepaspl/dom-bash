@@ -9,7 +9,7 @@ I recommend: https://github.com/powerline/fonts.git
 ```
 git clone https://github.com/powerline/fonts.git fonts
 cd fonts
-install.sh
+sh install.sh
 ```
 
 Install:
@@ -24,7 +24,7 @@ git clone https://github.com/deeppanara/dom-bash.git .bash/themes/dom-bash
 then add the following to your .bashrc:
 
 ```
-export THEME=$HOME/.bash/themes/dom-bash/dom_bash.bash
+export THEME=$HOME/.bash/themes/dom-bash/dom.bash
 if [[ -f $THEME ]]; then
     export DEFAULT_USER=`whoami`
     source $THEME
