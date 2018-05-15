@@ -192,9 +192,11 @@ prompt_histdt() {
 
 prompt_git() {
     local ref dirty
+    if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
         ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
         prompt_segment yellow black
-        PR="$PR${ref/refs\/heads\// }$dirty"
+    fi
+    PR="$PR${ref/refs\/heads\// }$dirty"
 }
 
 # hostmame: current host
