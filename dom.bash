@@ -410,14 +410,14 @@ build_prompt() {
 set_bash_prompt() {
     RETVAL=$?
     PR=""
-    PRIGHT=""
+    PRIGHT="sdsds"
     CURRENT_BG=NONE
     PR="$(ansi_single $(text_effect reset))"
     build_prompt
 
     # uncomment below to use right prompt
-    #     PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
-    PS1=$PR
+         PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
+    #PS1=$PR
 }
 
 PROMPT_COMMAND=set_bash_prompt

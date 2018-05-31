@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROMPT_DIRTRIM=4 # bash4 and above
+PROMPT_DIRTRIM=2 # bash4 and above
 
 ######################################################################
 DEBUG=0
@@ -374,8 +374,10 @@ set_bash_prompt() {
     build_prompt
 
     # uncomment below to use right prompt
-    #     PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
-    PS1='\n'$PR
+    # PS1='\[$(tput sc; printf "%*s" $COLUMNS "$PRIGHT"; tput rc)\]'$PR
+    # PS1='\[$(printf "%*s\r%s" "$(tput cols)" "$PRIGHT" $PR) \]'
+    # PS1=$(printf "%*s\r%s\n\$ " "$(tput cols)" $PRIGHT $PR)
+    PS1='\[\e]0;\u@\h: \w\a\]\n'$PR
 }
 
 PROMPT_COMMAND=set_bash_prompt
