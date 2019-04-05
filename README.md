@@ -31,6 +31,16 @@ if [[ -f $THEME ]]; then
 fi
 ```
 
-# Goals
+Install powerline:
 
-![ScreenShot](dom-bash-sshot.png)
+If you are running a Debian or Ubuntu based Linux distribution, there should
+be a package available to install the Powerline Fonts with the following command:
+```
+	sudo apt-get install fonts-powerline
+```
+
+For fedora (tested on 28) or redhat based Linux distribution, there should also be a package available to install with the following command:
+```
+	sudo dnf install powerline-fonts
+```
+
